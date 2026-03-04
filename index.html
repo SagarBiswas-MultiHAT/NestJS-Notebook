@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NestJS Notebook</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+        :root {
+            --primary: #e0234e;
+            --primary-light: #ff6b8a;
+            --dark: #1a1a2e;
+            --bg: #f4f6fb;
+            --text: #2d2d2d;
+            --border: #e5e7eb;
+            --note-bg: #fffbeb;
+            --tip-bg: #ecfdf5;
+            --code-bg: #1e1e2e;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.75;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a2e, #0f3460);
+            color: white;
+            padding: 52px 40px 44px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(224, 35, 78, .25), transparent 60%);
+        }
+
+        .label {
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--primary-light);
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 2.6rem;
+            font-weight: 700;
+            position: relative;
+        }
+
+        header h1 span {
+            color: var(--primary-light);
+        }
+
+        header p {
+            margin-top: 10px;
+            color: #adb5c8;
+            font-size: .93rem;
+            position: relative;
+        }
+
+        .tags {
+            margin-top: 18px;
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        .tags span {
+            background: rgba(255, 255, 255, .1);
+            border: 1px solid rgba(255, 255, 255, .15);
+            border-radius: 20px;
+            padding: 3px 13px;
+            font-size: .76rem;
+            color: #cbd5e1;
+        }
+
+        .container {
+            max-width: 840px;
+            margin: 0 auto;
+            padding: 36px 20px 80px;
+        }
+
+        .chapter {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: 48px 0 22px;
+        }
+
+        .ch-num {
+            background: var(--primary);
+            color: white;
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: .88rem;
+            flex-shrink: 0;
+        }
+
+        .chapter h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 26px 30px;
+            margin-bottom: 18px;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, .05);
+        }
+
+        h3 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin: 24px 0 11px;
+            padding-left: 13px;
+            border-left: 3px solid var(--primary);
+        }
+
+        p {
+            margin-bottom: 13px;
+            font-size: .95rem;
+        }
+
+        ul.nb {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 14px;
+        }
+
+        ul.nb li {
+            padding: 6px 0 6px 26px;
+            position: relative;
+            font-size: .93rem;
+            border-bottom: 1px dashed var(--border);
+        }
+
+        ul.nb li:last-child {
+            border-bottom: none;
+        }
+
+        ul.nb li::before {
+            content: '▸';
+            color: var(--primary);
+            position: absolute;
+            left: 3px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            background: #fce8ed;
+            color: #c0143c;
+            border: 1px solid #f5a3b2;
+            border-radius: 20px;
+            padding: 3px 11px;
+            font-size: .74rem;
+            font-weight: 600;
+            margin-bottom: 13px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 14px 0;
+            font-size: .88rem;
+        }
+
+        th {
+            background: var(--dark);
+            color: white;
+            padding: 11px 15px;
+            text-align: left;
+        }
+
+        th:first-child {
+            border-radius: 9px 0 0 0;
+        }
+
+        th:last-child {
+            border-radius: 0 9px 0 0;
+        }
+
+        td {
+            padding: 10px 15px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:nth-child(even) td {
+            background: #f9fafb;
+        }
+
+        .yes {
+            color: #059669;
+            font-weight: 600;
+        }
+
+        .no {
+            color: #dc2626;
+            font-weight: 600;
+        }
+
+        .note {
+            background: var(--note-bg);
+            border-left: 4px solid #fbbf24;
+            border-radius: 0 10px 10px 0;
+            padding: 13px 17px;
+            margin: 14px 0;
+            font-size: .88rem;
+        }
+
+        .note strong {
+            color: #92400e;
+        }
+
+        .tip {
+            background: var(--tip-bg);
+            border-left: 4px solid #10b981;
+            border-radius: 0 10px 10px 0;
+            padding: 13px 17px;
+            margin: 14px 0;
+            font-size: .88rem;
+        }
+
+        .tip strong {
+            color: #065f46;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .gi {
+            background: linear-gradient(135deg, #f9fafb, #f3f4f6);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 15px 17px;
+            display: flex;
+            gap: 11px;
+        }
+
+        .ico {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .95rem;
+            flex-shrink: 0;
+        }
+
+        .gi p {
+            font-size: .86rem;
+            margin: 0;
+        }
+
+        .gi strong {
+            display: block;
+            font-size: .9rem;
+            margin-bottom: 2px;
+        }
+
+        /* ── Code block ── */
+        .code-block {
+            background: var(--code-bg);
+            border-radius: 12px;
+            margin: 16px 0;
+            overflow: hidden;
+        }
+
+        .code-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 16px;
+            background: #13131f;
+            border-bottom: 1px solid #2e2e42;
+        }
+
+        .code-header span {
+            font-size: .78rem;
+            color: #6b7a9a;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .code-header .dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+        }
+
+        .dot-r {
+            background: #ff5f56;
+        }
+
+        .dot-y {
+            background: #ffbd2e;
+        }
+
+        .dot-g {
+            background: #27c93f;
+        }
+
+        .code-block pre {
+            padding: 18px 20px;
+            overflow-x: auto;
+        }
+
+        .code-block code {
+            font-family: 'Fira Code', monospace;
+            font-size: .85rem;
+            line-height: 1.9;
+            color: #cdd6f4;
+        }
+
+        .cm {
+            color: #6b7a9a;
+            font-style: italic;
+        }
+
+        .ck {
+            color: #cba6f7;
+        }
+
+        .cs {
+            color: #a6e3a1;
+        }
+
+        .cn {
+            color: #fab387;
+        }
+
+        .cp {
+            color: #89dceb;
+        }
+
+        /* ── Step list ── */
+        .steps {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .steps li {
+            display: flex;
+            gap: 16px;
+            padding: 14px 0;
+            border-bottom: 1px dashed var(--border);
+            align-items: flex-start;
+        }
+
+        .steps li:last-child {
+            border-bottom: none;
+        }
+
+        .step-num {
+            background: linear-gradient(135deg, var(--primary), #ff6b8a);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: .78rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .step-body {
+            flex: 1;
+        }
+
+        .step-body strong {
+            display: block;
+            font-size: .95rem;
+            margin-bottom: 3px;
+        }
+
+        .step-body p {
+            font-size: .88rem;
+            margin: 0;
+            color: #4b5563;
+        }
+
+        .inline-code {
+            background: #f3f4f6;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            padding: 2px 8px;
+            font-family: 'Fira Code', monospace;
+            font-size: .82rem;
+            color: #e0234e;
+        }
+
+        .verify-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: #ecfdf5;
+            color: #065f46;
+            border: 1px solid #6ee7b7;
+            border-radius: 20px;
+            padding: 2px 10px;
+            font-size: .75rem;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .url-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .url-link:hover {
+            text-decoration: underline;
+        }
+
+        .warn {
+            background: #fff7ed;
+            border-left: 4px solid #fb923c;
+            border-radius: 0 10px 10px 0;
+            padding: 13px 17px;
+            margin: 14px 0;
+            font-size: .88rem;
+        }
+
+        .warn strong {
+            color: #9a3412;
+        }
+
+        @media(max-width:580px) {
+            header h1 {
+                font-size: 1.9rem;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="label">📓 Student Notebook</div>
+        <h1>Node<span>JS</span> &amp; Nest<span>JS</span></h1>
+        <p>Beginner to Advanced &nbsp;·&nbsp; Interview Prep &nbsp;·&nbsp; Real-world Scenarios</p>
+        <div class="tags">
+            <span>TypeScript</span><span>Backend</span><span>REST
+                API</span><span>GraphQL</span><span>Microservices</span>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <!-- ══════ CHAPTER 01 ══════ -->
+        <div class="chapter">
+            <div class="ch-num">01</div>
+            <h2>Introduction to NestJS</h2>
+        </div>
+
+        <div class="card">
+            <h3>What is NestJS?</h3>
+            <p>So, first things first — what even <em>is</em> NestJS? In simple words, it's a <strong>progressive
+                    Node.js framework</strong> designed for building efficient and scalable server-side applications.
+                Think of it as the grown-up, well-organized version of your typical Node.js backend.</p>
+            <ul class="nb">
+                <li>Written in <strong>TypeScript</strong> and heavily inspired by <strong>Angular's</strong> design
+                    patterns and architecture.</li>
+                <li>Uses a <strong>modular architecture</strong> — everything is neatly grouped into modules, making
+                    large codebases much easier to manage.</li>
+                <li>Sits on top of Node.js (with Express under the hood by default), but layers a solid, structured
+                    system on top.</li>
+            </ul>
+            <div class="note"><strong>Note:</strong> If you've used Angular before, NestJS will feel very familiar —
+                decorators, modules, dependency injection… all those patterns carry straight over to the backend.</div>
+        </div>
+
+        <div class="card">
+            <h3>Why Do We Even Need NestJS?</h3>
+            <p>Honestly, when I first heard about NestJS I thought — "we already have Express, why bother?" But once you
+                work on a bigger project, you start to see the problem. Things get messy, fast. That's exactly where
+                NestJS comes in.</p>
+            <ul class="nb">
+                <li>It <strong>simplifies backend development</strong> by applying modern, well-established
+                    architectural patterns right from the start.</li>
+                <li>Provides a <strong>structured, opinionated way</strong> to build applications that are both scalable
+                    and easy to test.</li>
+                <li>Directly solves the <strong>limitations of traditional Express apps</strong> — mainly the total lack
+                    of enforced structure as your codebase grows.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <div class="badge">🎙️ Interview Question</div>
+            <h3>NestJS vs ExpressJS — What's the Difference?</h3>
+            <p>This one comes up a lot in interviews, so it's worth knowing cold.</p>
+            <p>ExpressJS is described as an <em>"unopinionated, minimalist web framework."</em> The key word is
+                <strong>unopinionated</strong> — no enforced structure, you organize things however you want. That's
+                great for small apps or quick prototypes, but for large-scale team projects? That freedom becomes a
+                liability.</p>
+            <p>NestJS is the opposite — it's <strong>opinionated</strong>. It enforces a modular structure, and that's a
+                feature, not a drawback. It also ships with a ton of built-in capabilities:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>ExpressJS</th>
+                        <th>NestJS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Language</td>
+                        <td>JavaScript</td>
+                        <td>TypeScript</td>
+                    </tr>
+                    <tr>
+                        <td>Project Structure</td>
+                        <td class="no">None enforced</td>
+                        <td class="yes">Modular &amp; enforced</td>
+                    </tr>
+                    <tr>
+                        <td>Dependency Injection</td>
+                        <td class="no">Manual / not built-in</td>
+                        <td class="yes">Built-in system</td>
+                    </tr>
+                    <tr>
+                        <td>Scalability</td>
+                        <td>Needs extra setup</td>
+                        <td class="yes">Designed for scale</td>
+                    </tr>
+                    <tr>
+                        <td>GraphQL</td>
+                        <td>Manual integration</td>
+                        <td class="yes">Dedicated module</td>
+                    </tr>
+                    <tr>
+                        <td>Microservices</td>
+                        <td class="no">Not built-in</td>
+                        <td class="yes">First-class support</td>
+                    </tr>
+                    <tr>
+                        <td>WebSockets</td>
+                        <td>Via external libs</td>
+                        <td class="yes">Built-in Gateway</td>
+                    </tr>
+                    <tr>
+                        <td>Testing</td>
+                        <td>Manual setup</td>
+                        <td class="yes">Built-in test utilities</td>
+                    </tr>
+                    <tr>
+                        <td>Learning Curve</td>
+                        <td>Low</td>
+                        <td>Medium (TypeScript needed)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="tip"><strong>💡 Interview Answer:</strong> "ExpressJS is unopinionated and minimal — great for
+                small apps. NestJS is opinionated and structured, making it the better pick for large, scalable,
+                team-based projects. It brings TypeScript, built-in dependency injection, and ready-made modules for
+                GraphQL, WebSockets, and microservices — all out of the box."</div>
+        </div>
+
+        <div class="card">
+            <h3>Key Benefits of NestJS</h3>
+            <ul class="nb">
+                <li><strong>Full TypeScript support</strong> — catch bugs at compile time, not in production at 2am.
+                </li>
+                <li><strong>Built-in Dependency Injection (DI)</strong> — cleanly manage and share services across your
+                    whole app.</li>
+                <li><strong>Easy database integration</strong> — works seamlessly with TypeORM, Prisma, Mongoose, and
+                    more.</li>
+                <li><strong>WebSockets &amp; GraphQL</strong> — first-class support with dedicated modules for both.
+                </li>
+                <li><strong>Microservices support</strong> — built with distributed, service-oriented architecture in
+                    mind.</li>
+                <li><strong>Scalable and maintainable codebase</strong> — the module system keeps things organized as
+                    the project grows.</li>
+                <li><strong>Active and growing community</strong> — strong docs, packages, and community support to lean
+                    on.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>What We'll Cover in This Notebook</h3>
+            <div class="grid">
+                <div class="gi">
+                    <div class="ico" style="background:#fce8ed;">🚀</div>
+                    <div><strong>Beginner to Advanced</strong>
+                        <p>Core concepts all the way to advanced patterns and architecture.</p>
+                    </div>
+                </div>
+                <div class="gi">
+                    <div class="ico" style="background:#eff6ff;">🎙️</div>
+                    <div><strong>Interview Prep</strong>
+                        <p>Commonly asked questions with clear, usable answers.</p>
+                    </div>
+                </div>
+                <div class="gi">
+                    <div class="ico" style="background:#ecfdf5;">🌍</div>
+                    <div><strong>Real-world Scenarios</strong>
+                        <p>Practical examples from actual development situations.</p>
+                    </div>
+                </div>
+                <div class="gi">
+                    <div class="ico" style="background:#fefce8;">💻</div>
+                    <div><strong>Source Code Included</strong>
+                        <p>Every concept has working, well-commented code to follow along.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ══════ CHAPTER 02 ══════ -->
+        <div class="chapter">
+            <div class="ch-num">02</div>
+            <h2>Installation &amp; Project Setup</h2>
+        </div>
+
+        <!-- Node.js -->
+        <div class="card">
+            <h3>Step 1 — Install Node.js</h3>
+            <p>
+                Before anything NestJS-related, we need <strong>Node.js</strong> on our machine. Head over to the
+                official site and grab the <strong>LTS (Long-Term Support)</strong> version — it's the most stable one
+                and the safest choice for any serious project.
+            </p>
+            <p>
+                🔗 Download: <a class="url-link" href="https://nodejs.org/en/download"
+                    target="_blank">https://nodejs.org/en/download</a>
+            </p>
+            <div class="warn">
+                <strong>⚠️ Important during installation:</strong> Just click Next → Next → Next → Finish. <strong>Do
+                    NOT check any extra checkboxes</strong> that appear during the setup — especially the one that
+                offers to install additional tools/Chocolatey. We don't need those.
+            </div>
+
+            <h3>But Wait — Why Do We Need Node.js?</h3>
+            <p>
+                Here's the thing — JavaScript was originally built to run <em>only inside browsers</em>. That was fine
+                for making web pages interactive, but it meant JS couldn't do anything on the server side.
+            </p>
+            <p>
+                <strong>Node.js changed all of that.</strong> It's a <strong>runtime environment</strong> that lets
+                JavaScript run <em>outside</em> the browser — on your machine, on a server, basically anywhere. That's
+                what made building backend apps with JavaScript (and TypeScript) possible in the first place.
+            </p>
+            <div class="tip">
+                <strong>💡 One-liner to remember:</strong> Node.js took JavaScript out of the browser and gave it a life
+                beyond the frontend.
+            </div>
+
+            <p>Once installed, open your terminal and verify it worked:</p>
+            <div class="code-block">
+                <div class="code-header">
+                    <div class="dots">
+                        <div class="dot dot-r"></div>
+                        <div class="dot dot-y"></div>
+                        <div class="dot dot-g"></div>
+                    </div>
+                    <span>terminal</span>
+                </div>
+                <pre><code><span class="cm"># Check your Node.js version — should print something like v20.x.x</span>
+node -v</code></pre>
+            </div>
+        </div>
+
+        <!-- npm -->
+        <div class="card">
+            <h3>Step 2 — npm Comes Free with Node</h3>
+            <p>
+                Here's a nice bonus — when you install Node.js, <strong>npm (Node Package Manager)</strong> gets
+                installed automatically alongside it. You don't need to do anything extra.
+            </p>
+
+            <div class="badge">🎙️ Interview Question</div>
+            <p><strong>What is npm and why do we need it?</strong></p>
+            <p>
+                npm is the <strong>default package manager for Node.js</strong>. Think of it like an app store, but for
+                JavaScript libraries and tools. Instead of manually downloading and linking third-party code, you just
+                run one command and npm handles everything — downloading the package, managing its version, and tracking
+                it in your project.
+            </p>
+            <ul class="nb">
+                <li><strong>Install packages</strong> — pull in any library from the npm registry with a single command.
+                </li>
+                <li><strong>Manage dependencies</strong> — keeps track of exactly which packages and versions your
+                    project needs via <span class="inline-code">package.json</span>.</li>
+                <li><strong>Run scripts</strong> — lets you define and run commands like <span class="inline-code">npm
+                        run start</span> or <span class="inline-code">npm run build</span>.</li>
+                <li><strong>Share your own packages</strong> — you can publish your own npm packages for others to use
+                    too.</li>
+            </ul>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <div class="dots">
+                        <div class="dot dot-r"></div>
+                        <div class="dot dot-y"></div>
+                        <div class="dot dot-g"></div>
+                    </div>
+                    <span>terminal</span>
+                </div>
+                <pre><code><span class="cm"># Verify npm is installed — should print something like 10.x.x</span>
+npm -v</code></pre>
+            </div>
+            <div class="note"><strong>Note:</strong> If both <span class="inline-code">node -v</span> and <span
+                    class="inline-code">npm -v</span> print version numbers without errors, you're all set and ready for
+                the next step.</div>
+        </div>
+
+        <!-- NestJS Installation -->
+        <div class="card">
+            <h3>Step 3 — Install the NestJS CLI</h3>
+            <p>
+                The <strong>NestJS CLI</strong> is a command-line tool that lets you scaffold new projects, generate
+                files, and run your app — all from the terminal. We install it globally so it's available anywhere on
+                your machine.
+            </p>
+            <div class="code-block">
+                <div class="code-header">
+                    <div class="dots">
+                        <div class="dot dot-r"></div>
+                        <div class="dot dot-y"></div>
+                        <div class="dot dot-g"></div>
+                    </div>
+                    <span>terminal</span>
+                </div>
+                <pre><code><span class="cm"># -g means "global" — installs the CLI system-wide, not just for one project</span>
+npm i -g @nestjs/cli</code></pre>
+            </div>
+        </div>
+
+        <!-- Create New Project -->
+        <div class="card">
+            <h3>Step 4 — Create Your First NestJS Project</h3>
+            <p>Now let's actually create a project. Follow these steps one by one:</p>
+            <ul class="steps">
+                <li>
+                    <div class="step-num">1</div>
+                    <div class="step-body">
+                        <strong>Navigate to your projects folder</strong>
+                        <p>Open your terminal and <span class="inline-code">cd</span> into wherever you keep your
+                            projects.</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="step-num">2</div>
+                    <div class="step-body">
+                        <strong>Run the project creation command</strong>
+                        <p>Replace <span class="inline-code">project-name</span> with whatever you want to call your
+                            app.</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="step-num">3</div>
+                    <div class="step-body">
+                        <strong>Select npm as the package manager</strong>
+                        <p>The CLI will ask <em>"Which package manager would you ❤️ to use?"</em> — choose
+                            <strong>npm</strong>.</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="step-num">4</div>
+                    <div class="step-body">
+                        <strong>Enter the project and open VS Code</strong>
+                        <p>Once the setup finishes, jump into your new project folder and open it in your editor.</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="step-num">5</div>
+                    <div class="step-body">
+                        <strong>Start the development server</strong>
+                        <p>Run the start command and then open your browser to check it's working.</p>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <div class="dots">
+                        <div class="dot dot-r"></div>
+                        <div class="dot dot-y"></div>
+                        <div class="dot dot-g"></div>
+                    </div>
+                    <span>terminal — full setup flow</span>
+                </div>
+                <pre><code><span class="cm"># 1. Move into your projects folder (adjust the path to yours)</span>
+cd projectfolder
+
+<span class="cm"># 2. Tell the NestJS CLI to scaffold a new project</span>
+<span class="cp">nest</span> new project-name
+
+<span class="cm"># 3. When prompted, select "npm" as your package manager
+#    (use arrow keys to navigate, Enter to confirm)</span>
+
+<span class="cm"># 4. Once created, enter the new project directory</span>
+cd project-name
+
+<span class="cm"># 5. Open the project in VS Code</span>
+code .
+
+<span class="cm"># 6. Start the development server</span>
+npm run start</code></pre>
+            </div>
+
+            <div class="tip">
+                <strong>💡 It's working!</strong> Once the server starts, open your browser and go to
+                <strong>http://localhost:3000/</strong> — you should see <em>"Hello World!"</em> staring back at you.
+                That's your NestJS app running live.
+            </div>
+        </div>
+
+        <!-- Quick Summary -->
+        <div class="card">
+            <h3>Quick Recap — What We Just Did</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Step</th>
+                        <th>Command / Action</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Download Node.js LTS</td>
+                        <td>Required runtime to run JavaScript outside the browser</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td><span class="inline-code">node -v</span></td>
+                        <td>Confirm Node.js installed correctly</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td><span class="inline-code">npm -v</span></td>
+                        <td>Confirm npm is available (auto-installed with Node)</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td><span class="inline-code">npm i -g @nestjs/cli</span></td>
+                        <td>Install the NestJS CLI globally</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td><span class="inline-code">nest new project-name</span></td>
+                        <td>Scaffold a brand new NestJS project</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td><span class="inline-code">npm run start</span></td>
+                        <td>Boot up the dev server on port 3000</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td><span class="inline-code">http://localhost:3000</span></td>
+                        <td>Verify the app is running in the browser</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</body>
+
+</html>
