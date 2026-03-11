@@ -1,0 +1,12 @@
+name: Get started with GitHub Actions
+
+on:
+  push: {}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Confirm workflow runs
+        run: echo "GitHub Actions workflow executed successfully"

@@ -1,5 +1,18 @@
 # NestJS Notebook
 
+![Build](https://img.shields.io/github/actions/workflow/status/SagarBiswas-MultiHAT/NestJS-Notebook/ci.yml?branch=main)
+![Release](https://img.shields.io/github/v/release/SagarBiswas-MultiHAT/NestJS-Notebook)
+![Last Commit](https://img.shields.io/github/last-commit/SagarBiswas-MultiHAT/NestJS-Notebook)
+![Issues](https://img.shields.io/github/issues/SagarBiswas-MultiHAT/NestJS-Notebook)
+![License](https://img.shields.io/github/license/SagarBiswas-MultiHAT/NestJS-Notebook)
+![Made with NestJS](https://img.shields.io/badge/made%20with-NestJS-7C3AED)
+
+## Part 1: Fundamentals, REST APIs, Postman & Interview Prep
+## License
+
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+# NestJS Notebook
+
 ## Part 1: Fundamentals, REST APIs, Postman & Interview Prep
 
 Excited to share my first NestJS Student Notebook; a beginner-to-intermediate guide covering fundamentals, real-world use cases, and interview preparation! 🚀
