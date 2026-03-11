@@ -1,11 +1,20 @@
 # NestJS Notebooks
 
-![Build](https://img.shields.io/github/actions/workflow/status/SagarBiswas-MultiHAT/NestJS-Notebookss/ci.yml?branch=main)
-![Release](https://img.shields.io/github/v/release/SagarBiswas-MultiHAT/NestJS-Notebookss)
-![Last Commit](https://img.shields.io/github/last-commit/SagarBiswas-MultiHAT/NestJS-Notebookss)
-![Issues](https://img.shields.io/github/issues/SagarBiswas-MultiHAT/NestJS-Notebookss)
-![License](https://img.shields.io/github/license/SagarBiswas-MultiHAT/NestJS-Notebookss)
+<div align="right">
+
+![Build](https://img.shields.io/github/actions/workflow/status/SagarBiswas-MultiHAT/NestJS-Notebooks/ci.yml?branch=main)
+&nbsp;
+![Release](https://img.shields.io/github/v/release/SagarBiswas-MultiHAT/NestJS-Notebooks)
+&nbsp;
+![Last Commit](https://img.shields.io/github/last-commit/SagarBiswas-MultiHAT/NestJS-Notebooks)
+&nbsp;
+![Issues](https://img.shields.io/github/issues/SagarBiswas-MultiHAT/NestJS-Notebooks)
+&nbsp;
+![License](https://img.shields.io/github/license/SagarBiswas-MultiHAT/NestJS-Notebooks)
+&nbsp;
 ![Made with NestJS](https://img.shields.io/badge/made%20with-NestJS-7C3AED)
+
+</div>
 
 ## Part 1: Fundamentals, REST APIs, Postman & Interview Prep
 
