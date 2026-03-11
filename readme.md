@@ -8,12 +8,6 @@
 ![Made with NestJS](https://img.shields.io/badge/made%20with-NestJS-7C3AED)
 
 ## Part 1: Fundamentals, REST APIs, Postman & Interview Prep
-## License
-
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
-# NestJS Notebook
-
-## Part 1: Fundamentals, REST APIs, Postman & Interview Prep
 
 Excited to share my first NestJS Student Notebook; a beginner-to-intermediate guide covering fundamentals, real-world use cases, and interview preparation! 🚀
 
