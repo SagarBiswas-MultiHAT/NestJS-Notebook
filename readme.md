@@ -1,10 +1,10 @@
-# NestJS Notebook
+# NestJS Notebooks
 
-![Build](https://img.shields.io/github/actions/workflow/status/SagarBiswas-MultiHAT/NestJS-Notebook/ci.yml?branch=main)
-![Release](https://img.shields.io/github/v/release/SagarBiswas-MultiHAT/NestJS-Notebook)
-![Last Commit](https://img.shields.io/github/last-commit/SagarBiswas-MultiHAT/NestJS-Notebook)
-![Issues](https://img.shields.io/github/issues/SagarBiswas-MultiHAT/NestJS-Notebook)
-![License](https://img.shields.io/github/license/SagarBiswas-MultiHAT/NestJS-Notebook)
+![Build](https://img.shields.io/github/actions/workflow/status/SagarBiswas-MultiHAT/NestJS-Notebookss/ci.yml?branch=main)
+![Release](https://img.shields.io/github/v/release/SagarBiswas-MultiHAT/NestJS-Notebookss)
+![Last Commit](https://img.shields.io/github/last-commit/SagarBiswas-MultiHAT/NestJS-Notebookss)
+![Issues](https://img.shields.io/github/issues/SagarBiswas-MultiHAT/NestJS-Notebookss)
+![License](https://img.shields.io/github/license/SagarBiswas-MultiHAT/NestJS-Notebookss)
 ![Made with NestJS](https://img.shields.io/badge/made%20with-NestJS-7C3AED)
 
 ## Part 1: Fundamentals, REST APIs, Postman & Interview Prep
